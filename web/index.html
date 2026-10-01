@@ -1,0 +1,71 @@
+<!doctype html>
+<html lang="id">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>NexusStack</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:wght@500;700;800&family=Figtree:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<main id="auth" class="auth">
+  <section class="brand">
+    <h1>Nexus<br>Stack</h1>
+    <p>Satu aplikasi, tiga bahasa pemrograman bekerja bersama.</p>
+    <ul class="stack">
+      <li><b>Go</b><span>gateway &amp; API</span></li>
+      <li><b>Rust</b><span>Argon2 &amp; audit log</span></li>
+      <li><b>JavaScript</b><span>antarmuka ini</span></li>
+    </ul>
+  </section>
+
+  <section class="card">
+    <div class="tabs" role="tablist">
+      <button id="tab-login" class="on" role="tab">Masuk</button>
+      <button id="tab-register" role="tab">Daftar</button>
+    </div>
+    <form id="auth-form" autocomplete="on">
+      <label>Nama pengguna <input id="username" required minlength="3" autocomplete="username"></label>
+      <label>Kata sandi <input id="password" type="password" required minlength="8" autocomplete="current-password"></label>
+      <p id="auth-msg" class="msg" role="alert"></p>
+      <button class="primary" id="auth-submit">Masuk</button>
+      <p class="hint">Akun pertama yang terdaftar otomatis menjadi admin.</p>
+    </form>
+  </section>
+</main>
+
+<div id="app" class="app" hidden>
+  <header>
+    <strong>NexusStack</strong>
+    <span id="who"></span>
+    <button id="logout" class="ghost">Keluar</button>
+  </header>
+
+  <section class="panel">
+    <h2>Catatan saya</h2>
+    <form id="note-form" class="row">
+      <input id="note-title" placeholder="Judul catatan" required maxlength="120">
+      <input id="note-body" placeholder="Isi (opsional)">
+      <button class="primary">Simpan catatan</button>
+    </form>
+    <ul id="notes" class="list"></ul>
+  </section>
+
+  <div id="admin" hidden>
+    <section class="panel">
+      <h2>Kelola pengguna</h2>
+      <ul id="users" class="list"></ul>
+    </section>
+    <section class="panel">
+      <h2>Log audit <small>dari layanan Rust</small></h2>
+      <ul id="audit" class="list mono"></ul>
+    </section>
+  </div>
+</div>
+
+<div id="toast" class="toast" role="status"></div>
+<script src="app.js"></script>
+</body>
+</html>
