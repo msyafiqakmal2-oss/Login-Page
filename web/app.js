@@ -12,7 +12,7 @@ const api = async (path, opts = {}) => {
   const data = await res.json().catch(() => ({}));
   if (!res.ok) {
     if (res.status === 401 && token) logout();
-    throw new Error(data.error || "Terjadi kesalahan.");
+    throw new Error(data.error || `Server membalas ${res.status}. Pastikan halaman dibuka lewat http://localhost:8080.`);
   }
   return data;
 };
@@ -24,12 +24,40 @@ function toast(t) {
   setTimeout(() => el.classList.remove("show"), 2200);
 }
 
+const TEXT = {
+  login: {
+    title: "Selamat datang kembali",
+    sub: "Masuk untuk melihat catatan Anda.",
+    user: "Nama pengguna",
+    ph: "Nama pengguna Anda",
+    btn: "Masuk",
+    hint: "Lupa kata sandi? Hubungi admin untuk membuat akun baru.",
+  },
+  register: {
+    title: "Buat akun baru",
+    sub: "Pilih nama panggilan dan kata sandi untuk akun Anda.",
+    user: "Nama panggilan",
+    ph: "3-32 karakter, tanpa spasi lebih baik",
+    btn: "Buat akun",
+    hint: "Akun pertama yang terdaftar otomatis menjadi admin.",
+  },
+};
+
 function setMode(m) {
   mode = m;
-  $("tab-login").classList.toggle("on", m === "login");
-  $("tab-register").classList.toggle("on", m === "register");
-  $("auth-submit").textContent = m === "login" ? "Masuk" : "Buat akun";
-  $("password").autocomplete = m === "login" ? "current-password" : "new-password";
+  const t = TEXT[m], reg = m === "register";
+  $("tab-login").classList.toggle("on", !reg);
+  $("tab-register").classList.toggle("on", reg);
+  $("auth-title").textContent = t.title;
+  $("auth-sub").textContent = t.sub;
+  $("lbl-user").textContent = t.user;
+  $("username").placeholder = t.ph;
+  $("auth-submit").textContent = t.btn;
+  $("auth-hint").textContent = t.hint;
+  $("confirm-wrap").hidden = !reg;
+  $("password2").required = reg;
+  $("password2").value = "";
+  $("password").autocomplete = reg ? "new-password" : "current-password";
   $("auth-msg").textContent = "";
 }
 $("tab-login").onclick = () => setMode("login");
@@ -37,6 +65,10 @@ $("tab-register").onclick = () => setMode("register");
 
 $("auth-form").onsubmit = async (e) => {
   e.preventDefault();
+  if (mode === "register" && $("password").value !== $("password2").value) {
+    $("auth-msg").textContent = "Kata sandi dan ulangannya tidak sama.";
+    return;
+  }
   try {
     const d = await api("/auth/" + mode, {
       method: "POST",
@@ -44,6 +76,7 @@ $("auth-form").onsubmit = async (e) => {
     });
     localStorage.setItem("token", d.token);
     $("password").value = "";
+    $("password2").value = "";
     start();
   } catch (err) {
     $("auth-msg").textContent = err.message;
@@ -133,3 +166,4 @@ async function loadAudit() {
 }
 
 if (localStorage.getItem("token")) start();
+setMode("login");
