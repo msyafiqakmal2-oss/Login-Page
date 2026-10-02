@@ -27,11 +27,17 @@
       <button id="tab-register" role="tab">Daftar</button>
     </div>
     <form id="auth-form" autocomplete="on">
-      <label>Nama pengguna <input id="username" required minlength="3" autocomplete="username"></label>
-      <label>Kata sandi <input id="password" type="password" required minlength="8" autocomplete="current-password"></label>
+      <h2 id="auth-title"></h2>
+      <p id="auth-sub" class="sub"></p>
+      <label><span id="lbl-user"></span>
+        <input id="username" required minlength="3" maxlength="32" autocomplete="username"></label>
+      <label><span>Kata sandi</span>
+        <input id="password" type="password" required minlength="8" autocomplete="current-password"></label>
+      <label id="confirm-wrap" hidden><span>Ulangi kata sandi</span>
+        <input id="password2" type="password" minlength="8" autocomplete="new-password" placeholder="Ketik ulang kata sandi"></label>
       <p id="auth-msg" class="msg" role="alert"></p>
-      <button class="primary" id="auth-submit">Masuk</button>
-      <p class="hint">Akun pertama yang terdaftar otomatis menjadi admin.</p>
+      <button class="primary" id="auth-submit"></button>
+      <p class="hint" id="auth-hint"></p>
     </form>
   </section>
 </main>
