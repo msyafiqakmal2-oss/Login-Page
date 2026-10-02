@@ -1,4 +1,4 @@
-FROM rust:1.80 AS build
+FROM rust:1.85 AS build
 WORKDIR /src
 COPY hasher/ .
 RUN cargo build --release
