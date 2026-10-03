@@ -35,3 +35,9 @@ Daftar akun pertama, otomatis menjadi **admin** dan bisa menghapus pengguna sert
 - Ganti `JWT_SECRET` sebelum produksi.
 - Mode tanpa Rust memakai hash sederhana, hanya untuk pengembangan.
 - Data masih in-memory (hilang saat restart); lihat `docs/UPGRADE.md`.
+Daftar akun pertama, otomatis menjadi **admin** dan bisa menghapus pengguna serta melihat log audit.
+
+## Catatan keamanan
+- Ganti `JWT_SECRET` sebelum produksi.
+- Mode tanpa Rust memakai hash sederhana, hanya untuk pengembangan.
+- Data masih in-memory (hilang saat restart); lihat `docs/UPGRADE.md`.
